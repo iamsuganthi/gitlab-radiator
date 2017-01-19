@@ -62,7 +62,7 @@ var app = new Vue({
       return valid
     },
     setupDefaults: function() {
-      axios.defaults.baseURL = "https://" + this.gitlab + "/api/v3"
+      axios.defaults.baseURL = "http://" + this.gitlab + "/api/v3"
       axios.defaults.headers.common['PRIVATE-TOKEN'] = this.token
     },
     fetchProjecs: function(page) {
@@ -97,10 +97,11 @@ var app = new Vue({
             updated = false
 
             build = self.filterLastBuild(response.data)
+              console.log(build)
             if (!build) {
               return
             }
-            startedFromNow = moment(build.started_at).fromNow()
+            startedFromNow = moment(build.created_at).fromNow()
 
             self.builds.forEach(function(b){
               if (b.project == p.name) {
@@ -109,7 +110,8 @@ var app = new Vue({
                 b.id = build.id
                 b.status = build.status
                 b.started_at = startedFromNow,
-                b.author = build.commit.author_name
+                b.author = build.commit.author_name,
+                b.message = build.commit.message,
                 b.project_path = p.path_with_namespace
               }
             });
@@ -121,7 +123,8 @@ var app = new Vue({
                 status: build.status,
                 started_at: startedFromNow,
                 author: build.commit.author_name,
-                project_path: p.path_with_namespace
+                  message: build.commit.message,
+                  project_path: p.path_with_namespace
               })
             }
           })
@@ -137,10 +140,10 @@ var app = new Vue({
       if (this.ref) {
         var self = this
         return builds.find(function(build) {
-          return build.ref === self.ref
+          return build.ref === self.ref && build.stage === "deploy-uat" || build.stage==="deploy-dev"
         })
       } else {
-        return builds[0]
+        return builds.find(function(b) {return b.stage==="deploy-uat" || b.stage==="deploy-dev"})
       }
     }
   }

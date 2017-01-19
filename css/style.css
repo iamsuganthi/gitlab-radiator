@@ -14,20 +14,27 @@ body {
   margin: 0 50px;
 }
 .project-name {
+  padding-top: 40px;
   color: white !important;
   text-shadow: 1px 1px rgba(0,0,0,0.2);
+  font-size: 360px !important;
+  text-align: center;
 }
 
 .project-name a {
   color: inherit;
+  text-transform: uppercase;
 }
 
 .ui.card>.extra a:not(.ui):hover, .ui.cards>.card>.extra a:not(.ui):hover {
-  color: rgba(0,0,0,.4);
+  color: white !important;
 }
 
 .ui.card, .ui.cards>.card {
   box-shadow: none !important;
+  font-size: 1em;
+  width: 49%;
+  height: 550px;
 }
 
 .ui.card, .ui.cards>.card.success {
@@ -48,4 +55,21 @@ body {
 
 .ui.card, .ui.cards>.card.canceled{
   background-color: #aaaaaa;
+}
+
+.ui.card, .ui.cards>.card.skipped {
+  background-color: gray;
+}
+
+.ui.card, .ui.cards>.card.created {
+  background-color: gray;
+}
+
+.content .meta {
+  color: white !important;
+  font-size: 1.5em;
+}
+
+.extra.content, .ui.cards>.card>.extra a:not(.ui){
+  color: white !important;
 }
