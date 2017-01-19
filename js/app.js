@@ -112,6 +112,7 @@ var app = new Vue({
                 b.started_at = startedFromNow,
                 b.author = build.commit.author_name,
                 b.message = build.commit.message,
+                b.name = build.name,
                 b.project_path = p.path_with_namespace
               }
             });
@@ -121,7 +122,8 @@ var app = new Vue({
                 project: p.name,
                 id: build.id,
                 status: build.status,
-                started_at: startedFromNow,
+                  name: build.name,
+                  started_at: startedFromNow,
                 author: build.commit.author_name,
                   message: build.commit.message,
                   project_path: p.path_with_namespace
@@ -137,14 +139,15 @@ var app = new Vue({
         return
       }
 
-      if (this.ref) {
-        var self = this
-        return builds.find(function(build) {
-          return build.ref === self.ref && build.stage === "deploy-uat" || build.stage==="deploy-dev"
-        })
-      } else {
-        return builds.find(function(b) {return b.stage==="deploy-uat" || b.stage==="deploy-dev"})
-      }
+      build = _.groupBy(builds, function (build) {
+            return build.pipeline.id
+        });
+      builds = _.filter(build[_.max(_.keys(build))], function (b) {
+        return b.status !== "skipped";
+      });
+      build = _.max(builds, function(build) {return build.id});
+      console.log(build);
+        return build;
     }
   }
 })

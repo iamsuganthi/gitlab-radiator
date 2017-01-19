@@ -58,11 +58,11 @@ body {
 }
 
 .ui.card, .ui.cards>.card.skipped {
-  background-color: gray;
+  background-color: #2d9fd8;
 }
 
 .ui.card, .ui.cards>.card.created {
-  background-color: gray;
+  background-color: #2d9fd8;
 }
 
 .content .meta {
