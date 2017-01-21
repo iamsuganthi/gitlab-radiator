@@ -54,19 +54,10 @@
           <div class="ui cards">
             <div v-for="build in builds" class="card {{build.status}}">
               <div class="content">
-                <div class="header project-name"><a target="_blank" href="https://{{gitlab}}/{{build.project_path}}">{{ build.project }}</a></div>
-                <div class="meta">{{ build.author }}</div>
-                <div class="meta">{{ build.message }}</div>
-                <div class="description">
-
-                </div>
+                <div class="header project-name">{{ build.name }}</div>
               </div>
               <div class="extra content">
-                <span class="left floated hashtag build-id">
-                  <a target="_blank" href="https://{{gitlab}}/{{build.project_path}}/builds/{{ build.id }}">
-                    {{build.name}}
-                  </a>
-                </span>
+                <span class="left floated">{{ build.author }}</span>
                 <span class="right floated calendar">
                   <i class="calendar icon"></i>
                   {{ build.started_at }}

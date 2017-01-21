@@ -62,7 +62,7 @@ var app = new Vue({
       return valid
     },
     setupDefaults: function() {
-      axios.defaults.baseURL = "http://" + this.gitlab + "/api/v3"
+      axios.defaults.baseURL = "https://" + this.gitlab + "/api/v3"
       axios.defaults.headers.common['PRIVATE-TOKEN'] = this.token
     },
     fetchProjecs: function(page) {
@@ -90,64 +90,20 @@ var app = new Vue({
         .catch(onError.bind(self));
     },
     fetchBuilds: function() {
-      var self = this
+      var self = this;
+      self.builds = [];
       this.projects.forEach(function(p){
-        axios.get('/projects/' + p.id + '/builds')
+        axios.get('/projects/' + p.id + '/pipelines')
           .then(function (response) {
-            updated = false
-
-            build = self.filterLastBuild(response.data)
-              console.log(build)
-            if (!build) {
-              return
-            }
-            startedFromNow = moment(build.created_at).fromNow()
-
-            self.builds.forEach(function(b){
-              if (b.project == p.name) {
-                updated = true
-
-                b.id = build.id
-                b.status = build.status
-                b.started_at = startedFromNow,
-                b.author = build.commit.author_name,
-                b.message = build.commit.message,
-                b.name = build.name,
-                b.project_path = p.path_with_namespace
-              }
-            });
-
-            if (!updated) {
+              pipeline = _.sortBy(response.data, function(p) {return p.id}).reverse()[0];
               self.builds.push({
-                project: p.name,
-                id: build.id,
-                status: build.status,
-                  name: build.name,
-                  started_at: startedFromNow,
-                author: build.commit.author_name,
-                  message: build.commit.message,
-                  project_path: p.path_with_namespace
+                  name: p.name,
+                  status: pipeline.status,
+                  started_at: moment(pipeline.created_at).fromNow(),
+                  author: pipeline.user.name
               })
-            }
           })
-          .catch(onError.bind(self));
-      })
-    },
-
-    filterLastBuild: function(builds) {
-      if (!Array.isArray(builds) || builds.length === 0) {
-        return
-      }
-
-      build = _.groupBy(builds, function (build) {
-            return build.pipeline.id
-        });
-      builds = _.filter(build[_.max(_.keys(build))], function (b) {
-        return b.status !== "skipped";
-      });
-      build = _.max(builds, function(build) {return build.id});
-      console.log(build);
-        return build;
+       })
     }
   }
 })

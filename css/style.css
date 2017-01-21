@@ -14,14 +14,14 @@ body {
   margin: 0 50px;
 }
 .project-name {
-  padding-top: 40px;
+  padding-top: 20px;
   color: white !important;
   text-shadow: 1px 1px rgba(0,0,0,0.2);
-  font-size: 360px !important;
+  font-size: 30px !important;
   text-align: center;
 }
 
-.project-name a {
+.project-name {
   color: inherit;
   text-transform: uppercase;
 }
@@ -33,8 +33,8 @@ body {
 .ui.card, .ui.cards>.card {
   box-shadow: none !important;
   font-size: 1em;
-  width: 49%;
-  height: 550px;
+  width: 48%;
+  height: 200px;
 }
 
 .ui.card, .ui.cards>.card.success {
