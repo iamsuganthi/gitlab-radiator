@@ -55,6 +55,10 @@
             <div v-for="build in builds" class="card {{build.status}}">
               <div class="content">
                 <div class="header project-name">{{ build.name }}</div>
+                <br/>
+                <br/>
+                <br/>
+                <div class="meta">{{ build.message }}</div>
               </div>
               <div class="extra content">
                 <span class="left floated">{{ build.author }}</span>

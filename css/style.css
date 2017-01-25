@@ -19,11 +19,8 @@ body {
   text-shadow: 1px 1px rgba(0,0,0,0.2);
   font-size: 30px !important;
   text-align: center;
-}
-
-.project-name {
-  color: inherit;
   text-transform: uppercase;
+  height: 100px;
 }
 
 .ui.card>.extra a:not(.ui):hover, .ui.cards>.card>.extra a:not(.ui):hover {
@@ -69,6 +66,7 @@ body {
   color: white !important;
   font-size: 1.5em;
 }
+
 
 .extra.content, .ui.cards>.card>.extra a:not(.ui){
   color: white !important;

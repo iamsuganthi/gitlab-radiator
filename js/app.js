@@ -96,12 +96,16 @@ var app = new Vue({
         axios.get('/projects/' + p.id + '/pipelines')
           .then(function (response) {
               pipeline = _.sortBy(response.data, function(p) {return p.id}).reverse()[0];
-              self.builds.push({
-                  name: p.name,
-                  status: pipeline.status,
-                  started_at: moment(pipeline.created_at).fromNow(),
-                  author: pipeline.user.name
-              })
+              axios.get('/projects/' + p.id + '/repository/commits/' + pipeline.sha).then(function(commit) {
+                self.builds.push({
+                                  name: p.name,
+                                  status: pipeline.status,
+                                  started_at: moment(pipeline.created_at).fromNow(),
+                                  author: commit.data.author_name,
+                                  message: commit.data.message,
+                              })
+              });
+
           })
        })
     }
