@@ -62,7 +62,7 @@ var app = new Vue({
       return valid
     },
     setupDefaults: function() {
-      axios.defaults.baseURL = "https://" + this.gitlab + "/api/v3"
+      axios.defaults.baseURL = "http://" + this.gitlab + "/api/v3"
       axios.defaults.headers.common['PRIVATE-TOKEN'] = this.token
     },
     fetchProjecs: function(page) {
@@ -93,9 +93,8 @@ var app = new Vue({
       var self = this;
       self.builds = [];
       this.projects.forEach(function(p){
-        axios.get('/projects/' + p.id + '/pipelines')
-          .then(function (response) {
-              pipeline = _.sortBy(response.data, function(p) {return p.id}).reverse()[0];
+        axios.get('/projects/' + p.id + '/pipelines').then(function (response) {
+              var pipeline = _.sortBy(response.data, function(p) {return p.id}).reverse()[0];
               axios.get('/projects/' + p.id + '/repository/commits/' + pipeline.sha).then(function(commit) {
                 self.builds.push({
                                   name: p.name,

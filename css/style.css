@@ -31,7 +31,7 @@ body {
   box-shadow: none !important;
   font-size: 1em;
   width: 48%;
-  height: 200px;
+  height: 260px;
 }
 
 .ui.card, .ui.cards>.card.success {
